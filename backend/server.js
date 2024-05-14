@@ -15,7 +15,7 @@ process.on("uncaughtException", (err) => {
 });
 
 // Config
-require("dotenv").config({ path: "backend/config/config.env" });
+require("dotenv").config({ path: ".env" });
 
 
 

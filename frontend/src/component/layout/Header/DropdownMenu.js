@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./dropdown.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faClock, faClose } from "@fortawesome/free-solid-svg-icons"; // Import the CSS file where the styles are defined
+import { faBars, faClock, faClose } from "@fortawesome/free-solid-svg-icons";
 
 const DropdownMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,12 +10,13 @@ const DropdownMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  const pathlocation  = window.innerWidth >= 1200
-
   return (
     <div className="dropdown">
-   { !pathlocation ?  < FontAwesomeIcon icon={!isOpen ? faBars : faClose}  style={{cursor:"pointer", color:"white", marginRight:"-20px"}}onClick={toggleMenu} /> : null}
-         
+      <FontAwesomeIcon
+        icon={!isOpen ? faBars : faClose}
+        style={{ cursor: "pointer", color: "white", marginRight: "10px" }}
+        onClick={toggleMenu}
+      />
       {isOpen && (
         <div className="dropdown-content">
           <a href="#">Home</a>

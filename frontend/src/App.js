@@ -1,5 +1,6 @@
 import "./App.css";
 import './input.css'
+import {Empdashboard} from  './Empdashboard/Empdashboard.js'
 import Inhouse  from "./component/Other/Inhouse.js";
 import { useEffect, useState } from "react";
 //import Header from "./component/layout/Header/Header.js";
@@ -106,6 +107,8 @@ function App() {
         <Route exact path="/book" component={Book} />
         <Route exact path="/tandc" component={TC} />
         <Route exact path="/course/cybersecurity" component={CyberSecurity} />
+        <Route exact path="/dashboard/user" component={Empdashboard} />
+
 
 
       

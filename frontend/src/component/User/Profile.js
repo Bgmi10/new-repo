@@ -1,18 +1,26 @@
 import React, { Fragment, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../actions/userAction";
 import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader/Loader";
 import { Link } from "react-router-dom";
 import "./Profile.css";
 
 const Profile = ({ history }) => {
+  const dispatch = useDispatch();
   const { user, loading, isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (isAuthenticated === false) {
+    if (!isAuthenticated) {
       history.push("/login");
     }
   }, [history, isAuthenticated]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    history.push("/login");
+  };
+
   return (
     <Fragment>
       {loading ? (
@@ -41,6 +49,7 @@ const Profile = ({ history }) => {
               <div>
                 <Link to="/orders">My Orders</Link>
                 <Link to="/password/update">Change Password</Link>
+                <button onClick={handleLogout}>Logout</button>
               </div>
             </div>
           </div>

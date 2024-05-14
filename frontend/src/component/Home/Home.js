@@ -105,9 +105,9 @@ const Home = ({ history }) => {
           <div className="main">
 
             <ScrollAnimation animateIn="fadeIn ">
-              <div className="box5">
+              <div className="box5 ">
                 <div className="groupi">
-                  <p className="providing-high" style={{ marginTop: '200px' }}>
+                  <p className="providing-high " style={{ marginTop: '200px' }} >
                     Securing Data
                   </p>
                   <p className="providing-high">

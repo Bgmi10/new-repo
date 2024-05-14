@@ -1,18 +1,40 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import logo from "../../../images/logo.png";
 import DropdownMenu from "./DropdownMenu";
 import { useState } from "react";
 
+// Define keyframes animation outside of the component
+const bn13bouncy = keyframes`
+  0% {
+    top: 0em;
+  }
+  40% {
+    top: 0em;
+  }
+  43% {
+    top: -0.9em;
+  }
+  46% {
+    top: 0em;
+  }
+  48% {
+    top: -0.4em;
+  }
+  50% {
+    top: 0em;
+  }
+  100% {
+    top: 0em;
+  }
+`;
+
 const Header = (props) => {
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleMouseEnter = () => {
-    setDropdownVisible(true);
+  const handleLogin = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleMouseLeave = () => {
-    setDropdownVisible(false);
-  };
   return (
     <Container className="contin">
       <Logo>
@@ -21,28 +43,30 @@ const Header = (props) => {
         </a>
       </Logo>
       <NavMenu>
-      &nbsp;
-      &nbsp;
-      &nbsp;
-        <a href="/">
+        <NavLink href="/" gradient>
           <span>Home</span>
-        </a>
-        <a href="/vapt">
+        </NavLink>
+        <NavLink href="/vapt">
           <span>VAPT</span>
-        </a>
-        <div class="dropdown">
-          <button class="dropbtn"><span>Courses</span></button>
-          <div class="dropdown-content">
-            <a href="/course/cybersecurity">In-house</a>
-            <a href="#">Collab</a>
-            <a href="#">Udemy</a>
-          </div>
-        </div>
-        <a href="/other">
+        </NavLink>
+        <Dropdown>
+          <DropdownButton>
+            <span>Courses</span>
+          </DropdownButton>
+          <DropdownContent>
+            <a href="/In-house">In-house</a>
+            <a href="/collab">Collab</a>
+            <a href="/udemy">Udemy</a>
+          </DropdownContent>
+        </Dropdown>
+        <NavLink href="/other">
           <span>Other Services</span>
-        </a>
+        </NavLink>
       </NavMenu>
-      <Login className="h-login" href="/login">Login</Login>
+      <StyledLogin href="/login" onClick={handleLogin}>
+        Login
+      </StyledLogin>
+      <DropdownMenu />
     </Container>
   );
 };
@@ -50,106 +74,132 @@ const Header = (props) => {
 //Styled-Components
 
 const Container = styled.div`
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 150px;
   display: flex;
-  margin: auto;
-  justify-content: space-between;
-  margin: auto;
   align-items: center;
-  z-index: 1000;
+  justify-content: space-between;
+  height: 70px;
+  color: white;
+  background-color: black;
+  margin-bottom: 0px
+  position
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
-const Logo = styled.a`
-  width: auto;
-  align-items: center;
+const Logo = styled.div`
+  flex: 0 0 auto;
+  width: 120px;
+  height: 100%;
 
   a {
-    cursor: auto;
+    display: block;
+    width: 100%;
+    height: 100%;
+
     img {
-      /* display: flex; */
-      width: 90%;
-      height: 150px;
-      border-radius: 50px;
-      margin-top:0;
-      /* align-items: center; */
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   }
 `;
 
-const Wrap = styled.div`
-  align-items: center;
+const NavMenu = styled.nav`
   display: flex;
-  flex-flow: row nowrap;
-  position: relative;
-  margin-right: auto;
-  margin-left: auto;
+  align-items: center;
+  margin-right: 60px;
 `;
 
-const NavMenu = styled.div`
-  align-items: center;
-  display: flex;
-  flex-flow: row nowrap;
-  height: 100%;
-  justify-content: flex-end;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  margin-right: auto;
-  margin-left: 30px;
+const NavLink = styled.a`
+  color: ${({ gradient }) => (gradient ? "white" : "white")};
+  margin: 0  20px;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  background-color: ${({ gradient }) =>
+    gradient
+      ? "linear-gradient(90deg, rgba(230, 1, 143, 1) 0%, rgba(2, 0, 252, 1) 50%)"
+      : "transparent"};
+
+  &:hover {
+    background-color: ${({ gradient }) =>
+      gradient ? "rgba(0, 0, 0, 0.7)" : "rgba(255, 255, 255, 0.1)"};
+    transform: translateY(-10px);
+    text-decoration: underline;
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+  }
+`;
+
+const Dropdown = styled.div`
+
+`;
+
+const DropdownButton = styled.button`
+  color: ${({ gradient }) => (gradient ? "white" : "white")};
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+`;
+const DropdownContent = styled.div`
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  min-width: 150px;
+  z-index: 2; /* Ensure a higher z-index */
+  display: none;
+  border-radius: 5px;
+
+  ${Dropdown}:hover & {
+    display: block;
+  }
 
   a {
+    display: block;
+    padding: 10px 20px;
+    color: white;
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    padding: 0 12px;
-
-    span {
-      color: rgb(249, 249, 249);
-      font-size: 20px;
-      letter-spacing: 1px;
-      line-height: 1.08;
-      padding: 1px 0;
-      white-space: nowrap;
-      position: relative;
-      font-family: "Inter", sans-serif;
-
-      &:before {
-        background-color: rgb(249, 249, 249);
-        border-radius: 0 0 4px 4px;
-        bottom: -6px;
-        content: "";
-        height: 2px;
-        left: 0;
-        opacity: 0;
-        position: absolute;
-        right: 0;
-        transform-origin: left center;
-        transform: scaleX(0);
-        transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
-        visibility: hidden;
-        width: auto;
-      }
-    }
+    transition: background-color 0.3s ease;
 
     &:hover {
-      span:before {
-        transform: scaleX(1);
-        visibility: visible;
-        opacity: 1 !important;
-      }
+      background-color: rgba(255, 255, 255, 0.1);
     }
-  }
-
-  @media (max-width: 548px) {
-    display: none;
   }
 `;
 
-const Login = styled.a`
+const StyledLogin = styled.a`
+  display: inline-block;
+  padding: 0.2em 1.1em;
+  border: 1px solid transparent; /* Set border to transparent */
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
   color: #ffffff;
+  text-align: center;
+  transition: all 0.2s;
+  position: relative;
+  margin-left: 10px; /* Adjust margin-left as needed */
+  animation: ${bn13bouncy} 5s infinite linear;
+
+  /* Use border-image for gradient border */
+  border-image: linear-gradient(90deg, rgba(230, 1, 143, 1) 0%, rgba(2, 0, 252, 1) 50%);
+  border-image-slice: 1;
+  &:hover {
+    background-color: white;
+    color: #000000;
+  }
 `;
 
 export default Header;
